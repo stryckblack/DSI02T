@@ -1,2 +1,2 @@
 # DSI02T
-Eu amo a corredora 
+Eu amo a corredora 😍
