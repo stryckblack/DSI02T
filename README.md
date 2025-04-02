@@ -52,3 +52,65 @@ namespace CalculatorLib
         }
     }
 }
+
+
+
+
+
+using Xunit;
+using CalculatorLib;
+using System;
+
+namespace CalculatorTests
+{
+    public class CalculatorTests
+    {
+        private readonly Calculator _calculator = new();
+
+        [Fact]
+        public void Add_ShouldReturnSum()
+        {
+            int result = _calculator.Add(5, 3);
+            Assert.Equal(8, result);
+        }
+
+        [Fact]
+        public void Subtract_ShouldReturnDifference()
+        {
+            int result = _calculator.Subtract(5, 3);
+            Assert.Equal(2, result);
+        }
+
+        [Fact]
+        public void Multiply_ShouldReturnProduct()
+        {
+            int result = _calculator.Multiply(5, 3);
+            Assert.Equal(15, result);
+        }
+
+        [Fact]
+        public void Divide_ShouldReturnQuotient()
+        {
+            int result = _calculator.Divide(10, 2);
+            Assert.Equal(5, result);
+        }
+
+        [Fact]
+        public void Divide_ByZero_ShouldThrowException()
+        {
+            Assert.Throws<DivideByZeroException>(() => _calculator.Divide(10, 0));
+        }
+
+        [Theory]
+        [InlineData(2, true)]
+        [InlineData(3, true)]
+        [InlineData(4, false)]
+        [InlineData(5, true)]
+        [InlineData(10, false)]
+        public void IsPrime_ShouldDeterminePrimes(int number, bool expected)
+        {
+            bool result = _calculator.IsPrime(number);
+            Assert.Equal(expected, result);
+        }
+    }
+}
