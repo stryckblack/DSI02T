@@ -1,0 +1,139 @@
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
+
+export default function ListaContatos() {
+  const [contatos, setContatos] = useState([]);
+
+  // Função para carregar contatos
+  const carregarContatos = () => {
+    setContatos([
+      { id: '1', nome: 'João Silva', email: 'joao@gmail.com' },
+      { id: '2', nome: 'Maria Souza', email: 'maria@gmail.com' },
+      { id: '3', nome: 'Carlos Lima', email: 'carlos@gmail.com' },
+      { id: '4', nome: 'Ana Costa', email: 'ana@gmail.com' },
+    ]);
+  };
+
+  // Item da lista
+  const renderItem = ({ item }) => (
+    <View style={styles.item}>
+      <Text style={styles.nome}>{item.nome}</Text>
+      <Text style={styles.email}>{item.email}</Text>
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={styles.container}>
+
+      {/* Botão */}
+      <TouchableOpacity style={styles.botao} onPress={carregarContatos}>
+        <Text style={styles.botaoTexto}>Carregar Contatos</Text>
+      </TouchableOpacity>
+
+      <FlatList
+        data={contatos}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+
+        // Cabeçalho
+        ListHeaderComponent={
+          <Text style={styles.header}>Lista de Contatos</Text>
+        }
+
+        // Estado vazio
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emoji}>🔍</Text>
+            <Text style={styles.emptyText}>
+              Sem contatos. Sua lista está vazia.
+            </Text>
+          </View>
+        }
+
+        // Separador
+        ItemSeparatorComponent={() => (
+          <View style={styles.separator} />
+        )}
+
+        contentContainerStyle={
+          contatos.length === 0 && styles.emptyList
+        }
+      />
+
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+
+  botao: {
+    backgroundColor: '#007bff',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+
+  botaoTexto: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+
+  header: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+
+  item: {
+    padding: 15,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+  },
+
+  nome: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  email: {
+    fontSize: 14,
+    color: '#555',
+  },
+
+  separator: {
+    height: 10,
+  },
+
+  emptyContainer: {
+    alignItems: 'center',
+  },
+
+  emoji: {
+    fontSize: 50,
+    marginBottom: 10,
+  },
+
+  emptyText: {
+    fontSize: 16,
+    color: '#777',
+    textAlign: 'center',
+  },
+
+  emptyList: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
