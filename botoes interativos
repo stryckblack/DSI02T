@@ -1,0 +1,106 @@
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  Pressable,
+  Alert,
+  StyleSheet
+} from 'react-native';
+
+export default function TelaBotoes() {
+  const [ultimoEvento, setUltimoEvento] = useState('');
+
+  return (
+    <SafeAreaView style={styles.container}>
+
+      {/* Texto de evento */}
+      <Text style={styles.evento}>
+        Último evento: {ultimoEvento || 'Nenhum'}
+      </Text>
+
+      {/* Botão Salvar */}
+      <Pressable
+        onPressIn={() => setUltimoEvento('Dedo tocou')}
+        onPressOut={() => setUltimoEvento('Dedo soltou')}
+        style={({ pressed }) => [
+          styles.botao,
+          styles.azul,
+          pressed && styles.pressed
+        ]}
+      >
+        <Text style={styles.textoBotao}>Salvar</Text>
+      </Pressable>
+
+      {/* Botão Excluir */}
+      <Pressable
+        onLongPress={() => Alert.alert('Item excluído!')}
+        style={({ pressed }) => [
+          styles.botao,
+          styles.vermelho,
+          pressed && styles.pressed
+        ]}
+      >
+        <Text style={styles.textoBotao}>Excluir</Text>
+      </Pressable>
+
+      {/* Botão Desabilitado */}
+      <Pressable
+        disabled={true}
+        style={[
+          styles.botao,
+          styles.cinzaDesabilitado
+        ]}
+      >
+        <Text style={styles.textoBotao}>Enviando...</Text>
+      </Pressable>
+
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#eaeaea',
+    padding: 20,
+    justifyContent: 'center',
+  },
+
+  evento: {
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+
+  botao: {
+    padding: 18,
+    borderRadius: 10,
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+
+  textoBotao: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  azul: {
+    backgroundColor: '#007bff',
+  },
+
+  vermelho: {
+    backgroundColor: '#dc3545',
+  },
+
+  cinzaDesabilitado: {
+    backgroundColor: '#aaa',
+  },
+
+  // efeito pressionado
+  pressed: {
+    opacity: 0.7,
+    transform: [{ scale: 0.95 }],
+  },
+});
