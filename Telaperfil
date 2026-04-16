@@ -1,0 +1,115 @@
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet
+} from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const Stack = createNativeStackNavigator();
+
+
+function TelaPerfil() {
+  const [nome, setNome] = useState('');
+  const [nomeSalvo, setNomeSalvo] = useState('');
+
+  useEffect(() => {
+    async function carregarNome() {
+      try {
+        const valor = await AsyncStorage.getItem('@meu_nome');
+        if (valor !== null) {
+          setNomeSalvo(valor);
+        }
+      } catch (e) {
+        console.log('Erro ao carregar nome');
+      }
+    }
+
+    carregarNome();
+  }, []);
+
+  const salvarNome = async () => {
+    try {
+      await AsyncStorage.setItem('@meu_nome', nome);
+      setNomeSalvo(nome);
+      setNome('');
+    } catch (e) {
+      console.log('Erro ao salvar nome');
+    }
+  };
+
+  const apagarNome = async () => {
+    try {
+      await AsyncStorage.removeItem('@meu_nome');
+      setNomeSalvo('');
+    } catch (e) {
+      console.log('Erro ao apagar nome');
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      {nomeSalvo ? (
+        <Text style={styles.titulo}>
+          Bem-vindo de volta, {nomeSalvo}
+        </Text>
+      ) : (
+        <Text style={styles.titulo}>
+          Digite seu nome
+        </Text>
+      )}
+
+      <TextInput
+        placeholder="Seu nome"
+        value={nome}
+        onChangeText={setNome}
+        style={styles.input}
+      />
+
+      <Button title="Salvar" onPress={salvarNome} />
+
+      <View style={{ marginTop: 10 }}>
+        <Button title="Apagar" color="red" onPress={apagarNome} />
+      </View>
+    </View>
+  );
+}
+
+
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="TelaPerfil" component={TelaPerfil} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20
+  },
+  titulo: {
+    fontSize: 20,
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5
+  }
+});
