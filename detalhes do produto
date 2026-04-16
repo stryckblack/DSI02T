@@ -1,0 +1,60 @@
+import * as React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+
+function TelaHome({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.texto}>Bem-vindo ao meu App 🚀</Text>
+      <Button
+        title="Ver Sobre"
+        onPress={() => navigation.navigate('Sobre')}
+      />
+    </View>
+  );
+}
+
+
+function TelaSobre({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.texto}>
+        Este é um app de exemplo usando React Navigation 📱
+      </Text>
+      <Button
+        title="Voltar"
+        onPress={() => navigation.goBack()}
+      />
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={TelaHome} />
+        <Stack.Screen name="Sobre" component={TelaSobre} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  texto: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+});
