@@ -1,0 +1,74 @@
+import React, { useState, createContext, useContext } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+const AuthContext = createContext();
+
+
+const Tab = createBottomTabNavigator();
+
+function Home() {
+  const { usuario } = useContext(AuthContext);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>🏠 Home</Text>
+      <Text style={styles.text}>Bem-vindo, {usuario}!</Text>
+    </View>
+  );
+}
+
+
+function Perfil() {
+  const { usuario, setUsuario } = useContext(AuthContext);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>👤 Perfil</Text>
+      <Text style={styles.text}>Usuário atual: {usuario}</Text>
+
+      <Button
+        title="Fazer login como João Silva"
+        onPress={() => setUsuario('João Silva')}
+      />
+    </View>
+  );
+}
+
+
+export default function App() {
+  const [usuario, setUsuario] = useState('Visitante');
+
+  return (
+    <AuthContext.Provider value={{ usuario, setUsuario }}>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Perfil" component={Perfil} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  text: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+});
