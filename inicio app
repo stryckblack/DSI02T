@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+
+function Dashboard() {
+  return <Text style={styles.texto}>Dashboard</Text>;
+}
+
+function Notificacoes() {
+  return <Text style={styles.texto}>Notificações</Text>;
+}
+
+function Configuracoes() {
+  return <Text style={styles.texto}>Configurações</Text>;
+}
+
+
+export default function App() {
+  const [aba, setAba] = useState('Dashboard');
+
+  const renderTela = () => {
+    if (aba === 'Dashboard') return <Dashboard />;
+    if (aba === 'Notificacoes') return <Notificacoes />;
+    if (aba === 'Configuracoes') return <Configuracoes />;
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      
+      {/* CONTEÚDO */}
+      <View style={styles.container}>
+        {renderTela()}
+      </View>
+
+      {/* 🔻 "TAB BAR" MANUAL */}
+      <View style={styles.tabBar}>
+        
+        <TouchableOpacity onPress={() => setAba('Dashboard')}>
+          <Text style={[styles.tab, aba === 'Dashboard' && styles.ativo]}>
+            📊
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setAba('Notificacoes')}>
+          <Text style={[styles.tab, aba === 'Notificacoes' && styles.ativo]}>
+            🔔
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setAba('Configuracoes')}>
+          <Text style={[styles.tab, aba === 'Configuracoes' && styles.ativo]}>
+            ⚙️
+          </Text>
+        </TouchableOpacity>
+
+      </View>
+    </View>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  texto: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  tabBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 15,
+    borderTopWidth: 1,
+  },
+  tab: {
+    fontSize: 24,
+    color: 'gray',
+  },
+  ativo: {
+    color: '#4caf50', // 👈 cor ativa
+  },
+});
