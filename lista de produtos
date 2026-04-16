@@ -1,0 +1,67 @@
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [tela, setTela] = useState('lista');
+  const [produto, setProduto] = useState(null);
+
+  
+  if (tela === 'lista') {
+    return (
+      <View style={styles.container}>
+        <Button
+          title="Ver Notebook"
+          onPress={() => {
+            setProduto({ nome: 'Notebook', preco: 'R$ 3.500' });
+            setTela('detalhes');
+          }}
+        />
+
+        <Button
+          title="Ver Smartphone"
+          onPress={() => {
+            setProduto({ nome: 'Smartphone', preco: 'R$ 2.000' });
+            setTela('detalhes');
+          }}
+        />
+
+        <Button
+          title="Ver Fone"
+          onPress={() => {
+            setProduto({ nome: 'Fone de Ouvido', preco: 'R$ 300' });
+            setTela('detalhes');
+          }}
+        />
+      </View>
+    );
+  }
+
+  
+  return (
+    <View style={styles.container}>
+      <Text style={styles.nome}>{produto.nome}</Text>
+      <Text style={styles.preco}>{produto.preco}</Text>
+
+      <Button title="Voltar" onPress={() => setTela('lista')} />
+    </View>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    gap: 10,
+    padding: 20,
+  },
+  nome: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  preco: {
+    fontSize: 20,
+    color: 'blue',
+  },
+});
