@@ -1,0 +1,129 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+
+function Inicio({ abrirMenu }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.texto}>Tela Inicial</Text>
+      <Text>Bem-vindo ao app!</Text>
+
+      <TouchableOpacity style={styles.botao} onPress={abrirMenu}>
+        <Text style={styles.botaoTexto}>Abrir Menu</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function MeusPedidos() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.texto}>Meus Pedidos</Text>
+      <Text>Aqui você acompanha seus pedidos.</Text>
+    </View>
+  );
+}
+
+function Suporte() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.texto}>Suporte</Text>
+      <Text>Entre em contato com o suporte.</Text>
+    </View>
+  );
+}
+
+
+export default function App() {
+  const [tela, setTela] = useState('Inicio');
+  const [menuAberto, setMenuAberto] = useState(false);
+
+  const renderTela = () => {
+    if (tela === 'Inicio') return <Inicio abrirMenu={() => setMenuAberto(true)} />;
+    if (tela === 'MeusPedidos') return <MeusPedidos />;
+    if (tela === 'Suporte') return <Suporte />;
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+
+      {/* CONTEÚDO */}
+      {renderTela()}
+
+      {/* 🔻 MENU LATERAL SIMULADO */}
+      {menuAberto && (
+        <View style={styles.drawer}>
+          
+          <TouchableOpacity onPress={() => setMenuAberto(false)}>
+            <Text style={styles.fechar}>❌ Fechar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => {
+            setTela('Inicio');
+            setMenuAberto(false);
+          }}>
+            <Text style={styles.item}>🏠 Início</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => {
+            setTela('MeusPedidos');
+            setMenuAberto(false);
+          }}>
+            <Text style={styles.item}>📦 Meus Pedidos</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => {
+            setTela('Suporte');
+            setMenuAberto(false);
+          }}>
+            <Text style={styles.item}>🛠️ Suporte</Text>
+          </TouchableOpacity>
+
+        </View>
+      )}
+    </View>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  texto: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  botao: {
+    marginTop: 20,
+    backgroundColor: '#4caf50',
+    padding: 15,
+    borderRadius: 10,
+  },
+  botaoTexto: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  drawer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 250,
+    backgroundColor: '#fff',
+    padding: 20,
+    elevation: 5,
+  },
+  item: {
+    fontSize: 18,
+    marginVertical: 15,
+  },
+  fechar: {
+    fontSize: 16,
+    marginBottom: 20,
+    color: 'red',
+  },
+});
